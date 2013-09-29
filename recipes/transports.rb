@@ -17,11 +17,12 @@
 include_recipe "postfix"
 
 execute "update-postfix-transport" do
-  command "postmap /etc/postfix/transport"
+  command "postmap #{node['postfix']['transport_db']}"
   action :nothing
 end
 
 template node['postfix']['transport_db'] do
   source "transport.erb"
+  mode "0644"
   notifies :run, "execute[update-postfix-transport]"
 end
