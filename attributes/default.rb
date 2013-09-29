@@ -3,7 +3,7 @@
 # Copyright:: Copyright (c) 2009, Opscode, Inc.
 # License:: Apache License, Version 2.0
 #
-# Licensed under the Apache License, Version 2.0 (the "License");
+#/ Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
@@ -28,9 +28,11 @@ case node['platform']
 when 'smartos'
   default['postfix']['conf_dir'] = '/opt/local/etc/postfix'
   default['postfix']['aliases_db'] = '/opt/local/etc/postfix/aliases'
+  default['postfix']['transport_db'] = '/opt/local/etc/postfix/transport'
 else
   default['postfix']['conf_dir'] = '/etc/postfix'
   default['postfix']['aliases_db'] = '/etc/aliases'
+  default['postfix']['transport_db'] = '/etc/postfix/transport'
 end
 
 # Non-default main.cf attributes
@@ -43,6 +45,7 @@ default['postfix']['main']['mydestination'] = [ node['postfix']['main']['myhostn
 default['postfix']['main']['smtpd_use_tls'] = "yes"
 default['postfix']['main']['smtp_use_tls'] = "yes"
 default['postfix']['main']['alias_maps'] = [ "hash:#{node['postfix']['aliases_db']}" ]
+default['postfix']['main']['transport_maps'] = [ "hash:#{node['postfix']['transport_db']}" ]
 default['postfix']['main']['mailbox_size_limit'] = 0
 default['postfix']['main']['recipient_delimiter'] = "+"
 default['postfix']['main']['smtp_sasl_auth_enable'] = "no"
@@ -57,6 +60,7 @@ when 'smartos'
   cafile = "/opt/local/etc/postfix/cacert.pem"
 when "rhel"
   cafile = "/etc/pki/tls/cert.pem"
+
 else
   cafile = "/etc/postfix/cacert.pem"
 end
