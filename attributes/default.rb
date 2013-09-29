@@ -60,7 +60,8 @@ when 'smartos'
   cafile = "/opt/local/etc/postfix/cacert.pem"
 when "rhel"
   cafile = "/etc/pki/tls/cert.pem"
-
+when "ubuntu"
+  cafile = "/etc/ssl/certs/cacert.org.pem"
 else
   cafile = "/etc/postfix/cacert.pem"
 end
