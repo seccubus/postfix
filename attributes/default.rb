@@ -105,3 +105,5 @@ end
 
 # Master.cf attributes
 default['postfix']['master']['submission'] = false
+default['postfix']['master']['smtps'] = false
+default['postfix']['master']['smtps_sasl'] = false
