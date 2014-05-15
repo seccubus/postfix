@@ -45,7 +45,9 @@ default['postfix']['main']['mydestination'] = [ node['postfix']['main']['myhostn
 default['postfix']['main']['smtpd_use_tls'] = "yes"
 default['postfix']['main']['smtp_use_tls'] = "yes"
 default['postfix']['main']['alias_maps'] = [ "hash:#{node['postfix']['aliases_db']}" ]
-default['postfix']['main']['transport_maps'] = [ "hash:#{node['postfix']['transport_db']}" ]
+if node['postfix']['transports'] then
+  default['postfix']['main']['transport_maps'] = [ "hash:#{node['postfix']['transport_db']}" ]
+end
 default['postfix']['main']['mailbox_size_limit'] = 0
 default['postfix']['main']['recipient_delimiter'] = "+"
 default['postfix']['main']['smtp_sasl_auth_enable'] = "no"
@@ -58,7 +60,7 @@ when 'smartos'
   default['postfix']['main']['smtpd_use_tls'] = "no"
   default['postfix']['main']['smtp_use_tls'] = "no"
   cafile = "/opt/local/etc/postfix/cacert.pem"
-when "rhel"
+when "rhel", "centos"
   cafile = "/etc/pki/tls/cert.pem"
 when "ubuntu"
   cafile = "/etc/ssl/certs/cacert.org.pem"
